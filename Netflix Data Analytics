@@ -15,7 +15,7 @@ SELECT *
     LIMIT 5
     ;
 
--- 2. Display the ID, director, title, and type of each movie and show.
+-- 2. Display the ID, director, title, and type of each movie and/or tv show.
 
 SELECT people.show_id, people.director, titles.title, titles.type
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS people
@@ -30,7 +30,7 @@ SELECT COUNT(*)
     WHERE(type='Movie')
     ;
 
--- 4. When was the most recent batch of tv shows and/or movies added to the database?
+-- 4. When was the most recent batch of movies and/or tv shows added to the database?
 
 SELECT MAX(DATE(date_added))
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
