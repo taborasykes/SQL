@@ -183,7 +183,7 @@ SELECT payment_type, COUNT(ID) AS total_transactions
 
 SELECT payment_type, COUNT(ID) AS low_sales_transactions
     FROM sales
-    WHERE(country!="United states" AND country!="Canada" AND country!="United Kingdom")
+    WHERE(country<>"United states" AND country<>"Canada" AND country<>"United Kingdom")
     GROUP BY payment_type
     ORDER BY low_sales_transactions DESC
     ;
