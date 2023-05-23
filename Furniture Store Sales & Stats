@@ -120,14 +120,14 @@ INSERT INTO sales(transaction_date,product,price,payment_type,name,city,state,co
 INSERT INTO sales(transaction_date,product,price,payment_type,name,city,state,country,account_created,last_login,latitude,longitude) VALUES ('1/14/09 11:19','Chair',1200,'Visa','Jennifer','Jumeira','Dubayy','United Arab Emirates','1/14/09 10:44','1/14/09 21:26',25.2097222,55.2477778);
 INSERT INTO sales(transaction_date,product,price,payment_type,name,city,state,country,account_created,last_login,latitude,longitude) VALUES ('1/13/09 19:39','Chair',1200,'Visa','Jolene','Englewood','CO','United states','1/6/09 22:00','1/14/09 22:02',39.64778,-104.98722);
 
---Display a preview of the data.
+-- 1. Display a preview of the data.
 
 SELECT *
     FROM sales
     LIMIT 5
     ;
 
---Which countries did the majority of our transactions come from?
+-- 2. Which countries did the majority of our transactions come from?
 
 SELECT country, COUNT(ID) AS total_transactions
     FROM sales
@@ -136,7 +136,7 @@ SELECT country, COUNT(ID) AS total_transactions
     ORDER BY total_transactions DESC
     ;
 
---Which US states did the majority of our US transactions come from?
+-- 3. Which US states did the majority of our US transactions come from?
 
 SELECT state, COUNT(ID) AS total_transactions
     FROM sales
@@ -146,19 +146,19 @@ SELECT state, COUNT(ID) AS total_transactions
     ORDER BY total_transactions DESC
     ;
 
---Who placed the northernmost order, and from where?
+-- 4. Who placed the northernmost order, and from where?
 
 SELECT name, city, state, country, MAX(latitude) AS latitude
     FROM sales
     ;
 
---Who placed the westernmost order, and from where?
+-- 5. Who placed the westernmost order, and from where?
 
 SELECT name, city, state, country, MIN(longitude) AS longitude
     FROM sales
     ;
 
---How many orders were from each semihemisphere?
+-- 6. How many orders were from each semihemisphere?
 
 SELECT COUNT(ID) AS total_orders, CASE
     WHEN(latitude>0 AND longitude>0) THEN "northeastern"
@@ -171,7 +171,7 @@ SELECT COUNT(ID) AS total_orders, CASE
     GROUP BY semihemisphere
     ;
 
---Which payment types did our customers use?
+-- 7. Which payment types did our customers use?
 
 SELECT payment_type, COUNT(ID) AS total_transactions
     FROM sales
@@ -179,7 +179,7 @@ SELECT payment_type, COUNT(ID) AS total_transactions
     ORDER BY total_transactions DESC
     ;
 
---Which payment types did customers from countries with low sales use?
+-- 8. Which payment types did customers from countries with low sales use?
 
 SELECT payment_type, COUNT(ID) AS low_sales_transactions
     FROM sales
@@ -188,7 +188,7 @@ SELECT payment_type, COUNT(ID) AS low_sales_transactions
     ORDER BY low_sales_transactions DESC
     ;
 
---Which payment types did our customers use to purchase beds or couches?
+-- 9. Which payment types did our customers use to purchase beds or couches?
 
 SELECT payment_type, COUNT(ID) AS beds_and_couches
     FROM sales
@@ -197,7 +197,7 @@ SELECT payment_type, COUNT(ID) AS beds_and_couches
     ORDER BY beds_and_couches DESC
     ;
 
---How many of each product did we sell, and what were the average price and gross income per product type?
+-- 10. How many of each product did we sell, and what were the average price and gross income per product type?
 
 SELECT product, COUNT(product) AS amount_sold, AVG(price) AS average_price, SUM(price) AS gross_income
     FROM sales
