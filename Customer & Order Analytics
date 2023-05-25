@@ -1,11 +1,11 @@
 /*
 Customer and Order Analytics
-Data Collected by Charlotte Chaze from Break Into Tech
+Data collected by Charlotte Chaze from Break Into Tech
 */
 
 -- 1. How many orders were placed in January?
 
-SELECT COUNT(orderID)
+SELECT COUNT(orderID) AS Jan_Orders
     FROM BIT_DB.JanSales
     WHERE((LENGTH(orderID)=6)
     AND(orderID<>"Order ID"))
@@ -13,7 +13,7 @@ SELECT COUNT(orderID)
 
 -- 2. How many of those orders were for an iPhone?
 
-SELECT COUNT(orderID)
+SELECT COUNT(orderID) AS Jan_iPhone_Orders
     FROM BIT_DB.JanSales
     WHERE((Product="iPhone")
     AND(LENGTH(orderID)=6)
@@ -22,7 +22,7 @@ SELECT COUNT(orderID)
 
 -- 3. Select the customer account numbers for all the orders that were placed in February.
 
-SELECT DISTINCT cust.acctnum
+SELECT DISTINCT cust.acctnum AS Account_Number
     FROM BIT_DB.customers AS cust
     INNER JOIN BIT_DB.FebSales AS feb
     ON cust.order_id=feb.orderID
@@ -40,7 +40,7 @@ SELECT DISTINCT Product, price
 
 -- 5. What is the total revenue for each product sold in January?
 
-SELECT (SUM(Quantity)*price) AS Revenue, Product
+SELECT Product, (SUM(Quantity)*price) AS Revenue
     FROM BIT_DB.JanSales
     GROUP BY Product
     ORDER BY Revenue DESC
@@ -48,7 +48,7 @@ SELECT (SUM(Quantity)*price) AS Revenue, Product
 
 -- 6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
 
-SELECT SUM(Quantity) AS Amount, Product, (SUM(Quantity)*price) AS Revenue
+SELECT Product, SUM(Quantity) AS Amount_Sold, (SUM(Quantity)*price) AS Revenue
     FROM BIT_DB.FebSales
     WHERE(location="548 Lincoln St, Seattle, WA 98101")
     GROUP BY Product
@@ -56,11 +56,21 @@ SELECT SUM(Quantity) AS Amount, Product, (SUM(Quantity)*price) AS Revenue
 
 -- 7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
 
-SELECT COUNT(DISTINCT cust.acctnum) AS Customers, AVG(feb.Quantity*feb.price) AS Average_Transaction
+SELECT COUNT(DISTINCT cust.acctnum) AS "Customers_>2_Items", AVG(feb.Quantity*feb.price) AS "Avg_TX_>2_Items"
     FROM BIT_DB.customers AS cust
     LEFT JOIN BIT_DB.FebSales AS feb
     ON cust.order_id=feb.orderID
     WHERE(feb.Quantity>2)
     AND(LENGTH(feb.orderID)=6)
     AND(feb.orderID<>"Order ID")
+    ;
+
+-- 8. List all the products sold in Los Angeles in February, and include how many of each were sold.
+
+SELECT Product, SUM(Quantity) AS Amount_Sold
+    FROM BIT_DB.FebSales
+    WHERE(location LIKE "%Los Angeles%")
+    AND(orderdate LIKE "02%")
+    GROUP BY Product
+    ORDER BY Amount_Sold DESC
     ;
