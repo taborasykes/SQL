@@ -18,8 +18,8 @@ SELECT *
 -- 2. Display the ID, director, title, and type of each movie and/or tv show.
 
 SELECT people.show_id, people.director, titles.title, titles.type
-    FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS people
-    LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS titles
+    FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
+    LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
     ON people.show_id=titles.show_id
     ;
 
@@ -46,8 +46,8 @@ SELECT title
 -- 6. Who was the Director for the movie Bright Star?
 
 SELECT people.director
-    FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS people
-    LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS titles
+    FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
+    LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
     ON people.show_id=titles.show_id
     WHERE(titles.title='Bright Star')
     ;
