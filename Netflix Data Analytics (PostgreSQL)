@@ -5,19 +5,25 @@ Data collected by: https://bit.io/CharlotteChaze/BreakIntoTech?tab=Data
 
 -- 1. Preview the data of both tables.
 
-SELECT *
+SELECT
+    *
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people"
     LIMIT 5
     ;
 
-SELECT *
+SELECT
+    *
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     LIMIT 5
     ;
 
 -- 2. Display the ID, director, title, and type of each movie and/or tv show.
 
-SELECT people.show_id, people.director, titles.title, titles.type
+SELECT
+    people.show_id,
+    people.director,
+    titles.title,
+    titles.type
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
     LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
     ON people.show_id=titles.show_id
@@ -25,27 +31,31 @@ SELECT people.show_id, people.director, titles.title, titles.type
 
 -- 3. How many movie titles are there in the database?
 
-SELECT COUNT(*)
+SELECT
+    COUNT(*)
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     WHERE(type='Movie')
     ;
 
 -- 4. When was the most recent batch of movies and/or tv shows added to the database?
 
-SELECT MAX(DATE(date_added)) AS "most_recent"
+SELECT
+    MAX(DATE(date_added)) AS "most_recent"
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     ;
 
 -- 5. List all the movies and tv shows in alphabetical order.
 
-SELECT title
+SELECT
+    title
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     ORDER BY title ASC
     ;
 
 -- 6. Who was the Director for the movie Bright Star?
 
-SELECT people.director
+SELECT
+    people.director
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
     LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
     ON people.show_id=titles.show_id
@@ -54,7 +64,9 @@ SELECT people.director
 
 -- 7. What is the oldest movie in the database and what year was it made?
 
-SELECT title, release_year
+SELECT
+    title,
+    release_year
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     WHERE(type='Movie')
     AND release_year<=(SELECT MIN(release_year)
