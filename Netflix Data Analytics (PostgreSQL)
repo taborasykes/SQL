@@ -32,7 +32,7 @@ SELECT COUNT(*)
 
 -- 4. When was the most recent batch of movies and/or tv shows added to the database?
 
-SELECT MAX(DATE(date_added))
+SELECT MAX(DATE(date_added)) AS "most_recent"
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
     ;
 
