@@ -122,14 +122,17 @@ INSERT INTO sales(transaction_date,product,price,payment_type,name,city,state,co
 
 -- 1. Display a preview of the data.
 
-SELECT *
+SELECT
+    *
     FROM sales
     LIMIT 5
     ;
 
 -- 2. Which countries did the majority of our transactions come from?
 
-SELECT country, COUNT(ID) AS total_transactions
+SELECT
+    country,
+    COUNT(ID) AS "total_transactions"
     FROM sales
     GROUP BY country
     HAVING(total_transactions>=10)
@@ -138,9 +141,11 @@ SELECT country, COUNT(ID) AS total_transactions
 
 -- 3. Which US states did the majority of our US transactions come from?
 
-SELECT state, COUNT(ID) AS total_transactions
+SELECT
+    state,
+    COUNT(ID) AS "total_transactions"
     FROM sales
-    WHERE(country="United states")
+    WHERE(country='United states')
     GROUP BY state
     HAVING(total_transactions>=3)
     ORDER BY total_transactions DESC
@@ -148,32 +153,45 @@ SELECT state, COUNT(ID) AS total_transactions
 
 -- 4. Who placed the northernmost order, and from where?
 
-SELECT name, city, state, country, MAX(latitude) AS latitude
+SELECT
+    name,
+    city,
+    state,
+    country,
+    MAX(latitude) AS "latitude"
     FROM sales
     ;
 
 -- 5. Who placed the westernmost order, and from where?
 
-SELECT name, city, state, country, MIN(longitude) AS longitude
+SELECT
+    name,
+    city,
+    state,
+    country,
+    MIN(longitude) AS "longitude"
     FROM sales
     ;
 
 -- 6. How many orders were from each semihemisphere?
 
-SELECT COUNT(ID) AS total_orders, CASE
-    WHEN(latitude>0 AND longitude>0) THEN "northeastern"
-    WHEN(latitude>0 AND longitude<0) THEN "northwestern"
-    WHEN(latitude<0 AND longitude>0) THEN "southeastern"
-    WHEN(latitude<0 AND longitude<0) THEN "southwestern"
-    ELSE "N/A"
-    END AS semihemisphere
+SELECT
+    COUNT(ID) AS "total_orders", CASE
+        WHEN(latitude>0 AND longitude>0) THEN 'northeastern'
+        WHEN(latitude>0 AND longitude<0) THEN 'northwestern'
+        WHEN(latitude<0 AND longitude>0) THEN 'southeastern'
+        WHEN(latitude<0 AND longitude<0) THEN 'southwestern'
+        ELSE 'N/A'
+        END AS "semihemisphere"
     FROM sales
     GROUP BY semihemisphere
     ;
 
 -- 7. Which payment types did our customers use?
 
-SELECT payment_type, COUNT(ID) AS total_transactions
+SELECT
+    payment_type,
+    COUNT(ID) AS "total_transactions"
     FROM sales
     GROUP BY payment_type
     ORDER BY total_transactions DESC
@@ -181,25 +199,33 @@ SELECT payment_type, COUNT(ID) AS total_transactions
 
 -- 8. Which payment types did customers from countries with low sales use?
 
-SELECT payment_type, COUNT(ID) AS low_sales_transactions
+SELECT
+    payment_type,
+    COUNT(ID) AS "low_sales_transactions"
     FROM sales
-    WHERE(country<>"United states" AND country<>"Canada" AND country<>"United Kingdom")
+    WHERE(country<>'United states' AND country<>'Canada' AND country<>'United Kingdom')
     GROUP BY payment_type
     ORDER BY low_sales_transactions DESC
     ;
 
 -- 9. Which payment types did our customers use to purchase beds or couches?
 
-SELECT payment_type, COUNT(ID) AS beds_and_couches
+SELECT
+    payment_type,
+    COUNT(ID) AS "beds_and_couches"
     FROM sales
-    WHERE(product="Bed" OR product="Couch")
+    WHERE(product='Bed' OR product='Couch')
     GROUP BY payment_type
     ORDER BY beds_and_couches DESC
     ;
 
 -- 10. How many of each product did we sell, and what were the average price and gross income per product type?
 
-SELECT product, COUNT(product) AS amount_sold, AVG(price) AS average_price, SUM(price) AS gross_income
+SELECT
+    product,
+    COUNT(product) AS "amount_sold",
+    AVG(price) AS "average_price",
+    SUM(price) AS "gross_income"
     FROM sales
     GROUP BY product
     ORDER BY gross_income DESC
