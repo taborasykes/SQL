@@ -1,0 +1,153 @@
+/*
+Spotify Data Analytics
+The data utilized pertains to the top 50 songs listened to during 2021 on Spotify
+Data collected from Spotify by Hanna Yukhymenko on kaggle.com
+*/
+
+CREATE TABLE BIT_DB.SpotifyData(
+    id INTEGER PRIMARY KEY,
+    artist_name VARCHAR NOT NULL,
+    track_name VARCHAR NOT NULL,
+    track_id VARCHAR NOT NULL,
+    popularity INTEGER NOT NULL,
+    danceability DECIMAL(4,3) NOT NULL,
+    energy DECIMAL(4,3) NOT NULL,
+    song_key INTEGER NOT NULL,
+    loudness DECIMAL(5,3) NOT NULL,
+    song_mode INTEGER NOT NULL,
+    speechiness DECIMAL(5,4) NOT NULL,
+    acousticness DECIMAL(6,5) NOT NULL,
+    instrumentalness DECIMAL(8,7) NOT NULL,
+    liveness DECIMAL(5,4) NOT NULL,
+    valence DECIMAL(4,3) NOT NULL,
+    tempo DECIMAL(6,3) NOT NULL,
+    duration_ms INTEGER NOT NULL,
+    time_signature INTEGER NOT NULL)
+    ;
+
+-- After creating this table, I imported the data from a .csv file.
+
+-- 1. Display the new table.
+
+SELECT
+    *
+    FROM BIT_DB.SpotifyData
+    ;
+
+-- 2. What were the ten most popular songs, in descending order, and who were their respective artists?
+
+SELECT
+    track_name,
+    artist_name,
+    popularity
+    FROM BIT_DB.SpotifyData
+    ORDER BY popularity DESC
+    LIMIT 10
+    ;
+
+-- 3. Order the ten most popular songs by valence, starting with the most positive.
+
+SELECT
+    track_name,
+    artist_name,
+    valence,
+    popularity
+    FROM BIT_DB.SpotifyData
+    WHERE(track_name IN(SELECT
+        track_name
+        FROM BIT_DB.SpotifyData
+        ORDER BY popularity DESC
+        LIMIT 10))
+    ORDER BY valence DESC
+    ;
+
+-- 4. Group all 50 songs by valence level, and then display the number of songs and average popularity, danceability, energy, and tempo of each group.
+
+SELECT
+    CASE
+        WHEN(valence<=0.2) THEN 'least positive'
+        WHEN(valence<=0.4) THEN 'somewhat positive'
+        WHEN(valence<=0.6) THEN 'moderately positive'
+        WHEN(valence<=0.8) THEN 'very positive'
+        WHEN(valence<=1.0) THEN 'extremely positive'
+        ELSE 'N/A'
+        END AS "valence_group",
+    COUNT(ID) AS "total_songs",
+    AVG(popularity),
+    AVG(danceability),
+    AVG(energy),
+    AVG(tempo)
+    FROM BIT_DB.SpotifyData
+    GROUP BY valence_group
+    ORDER BY AVG(valence) DESC
+    ;
+
+-- 5. What was the longest song? Additionally, display its artist, duration in seconds, and popularity.
+
+SELECT
+    track_name,
+    artist_name,
+    (MAX(duration_ms)/1000) AS "duration_s",
+    popularity
+    FROM BIT_DB.SpotifyData
+    ;
+
+-- 6. What were the durations, in seconds, of the ten speechiest songs, starting with the most verbose?
+
+SELECT
+    track_name,
+    artist_name,
+    speechiness,
+    (duration_ms/1000) AS "duration_s"
+    FROM BIT_DB.SpotifyData
+    ORDER BY speechiness DESC
+    LIMIT 10
+    ;
+
+-- 7. Which artists had multiple songs in the top 50, excluding features, and how many did each of them have?
+
+SELECT
+    artist_name,
+    COUNT(id) AS "songs_as_main_artist"
+    FROM BIT_DB.SpotifyData
+    GROUP BY artist_name
+    HAVING(songs_as_main_artist>1)
+    ORDER BY songs_as_main_artist DESC
+    ;
+
+-- 8. Who were the ten most popular artists, based on the average popularity of their songs in the top 50, excluding features? Additionally, how many songs did they have in the top 50, excluding features?
+
+SELECT
+    artist_name,
+    AVG(popularity),
+    COUNT(id) AS "songs_as_main_artist"
+    FROM BIT_DB.SpotifyData
+    GROUP BY artist_name
+    ORDER BY AVG(popularity) DESC
+    LIMIT 10
+    ;
+
+-- 9. Group all 50 songs by key, and then display the average popularity of each group, starting with the most popular. Additionally, display how many songs were in each key.
+
+SELECT
+    CASE
+        WHEN(song_key=0) THEN 'C'
+        WHEN(song_key=1) THEN 'Db/C#'
+        WHEN(song_key=2) THEN 'D'
+        WHEN(song_key=3) THEN 'Eb'
+        WHEN(song_key=4) THEN 'E'
+        WHEN(song_key=5) THEN 'F'
+        WHEN(song_key=6) THEN 'Gb/F#'
+        WHEN(song_key=7) THEN 'G'
+        WHEN(song_key=8) THEN 'Ab'
+        WHEN(song_key=9) THEN 'A'
+        WHEN(song_key=10) THEN 'Bb'
+        WHEN(song_key=11) THEN 'B/Cb'
+        ELSE 'N/A'
+        END AS "key_letter",
+    AVG(popularity),
+    COUNT(id) AS "total_songs"
+    FROM BIT_DB.SpotifyData
+    GROUP BY key_letter
+    ORDER BY AVG(popularity) DESC
+    ;
