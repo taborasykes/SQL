@@ -154,7 +154,7 @@ SELECT
 
 -- 10. Calculate the average popularity for each artist, excluding features. Then, for every artist with an average popularity of 90 or above, display their name, average popularity, and label them as a “Top Star."
 
-WITH pop_avg_cte AS(
+WITH pop_avg_CTE AS(
     SELECT
         s.artist_name,
         AVG(s.popularity) AS "avg_popularity"
@@ -164,7 +164,7 @@ WITH pop_avg_cte AS(
         artist_name,
         avg_popularity,
         'Top Star' AS "tag"
-        FROM pop_avg_cte
+        FROM pop_avg_CTE
         WHERE(avg_popularity>=90)
         ORDER BY avg_popularity DESC
         ;
