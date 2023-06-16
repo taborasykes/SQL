@@ -25,7 +25,7 @@ SELECT
     inv.BillingCountry
     FROM chinook.customers AS "cust"
     LEFT JOIN chinook.invoices AS "inv"
-    ON cust.CustomerId=inv.CustomerId
+        ON cust.CustomerId=inv.CustomerId
     WHERE(inv.BillingCountry='Brazil')
     ORDER BY inv.InvoiceId ASC
     ;
@@ -93,7 +93,7 @@ SELECT
     t.Name AS "Track"
     FROM chinook.invoice_items AS "i"
     LEFT JOIN chinook.tracks AS "t"
-    ON i.TrackId=t.TrackId
+        ON i.TrackId=t.TrackId
     ORDER BY i.InvoiceLineId ASC
     ;
 
