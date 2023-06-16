@@ -1,0 +1,133 @@
+/*
+CTE and Window Function Practice with Bike Lane Data
+Data collected by Charlotte Chaze from Break Into Tech
+*/
+
+CREATE TABLE BIT_DB.CityBikeLanes(
+    id INTEGER PRIMARY KEY,
+    year_installed YEAR NOT NULL,
+    year_updated YEAR NOT NULL,
+    street VARCHAR NOT NULL,
+    width_feet INTEGER NOT NULL,
+    safetyrating INTEGER NOT NULL,
+    protected VARCHAR NOT NULL)
+    ;
+
+INSERT INTO BIT_DB.CityBikeLanes VALUES(1,2012, 2020, "Chestnut",4,4,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(2,2016, 2020,"Walnut",4,3.8,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(3,2011, 2020, "Market", 3.5, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(4,2008, 2020,"Locust",4,5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(5,2002, 2020,"South",4.5,4.3,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(6,2012, 2021, "18th",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(7,2016, 2021,"2nd",4,3.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(8,2011, 2021, "Lombard", 3.5, 2.2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(9,2008, 2021,"Pine",4,4.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(10,2002, 2021,"Tasker",4.5,4.8,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(11,2012, 2020, "Earp",4,4.1,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(12,2016, 2020,"Titan",4,3.8,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(13,2011, 2020, "Manning", 3.4, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(14,2008, 2020,"Fieldcrest",4,4.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(15,2002, 2020,"York",4.5,4.5,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(16,2012, 2021, "Race",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(17,2016, 2021,"Museum",4,3.8,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(18,2011, 2021, "Altin", 3.5, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(19,2008, 2021,"Fred",4,4.5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(20,2002, 2021,"Morris",4.5,4.7,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(21,2012, 2020, "Jameson",4,3.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(22,2016, 2020,"MLK",4,3.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(23,2011, 2020, "Parker", 3.6, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(24,2008, 2020,"Thomas",4,4.8,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(25,2002, 2020,"Running",4.5,4.3,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(26,2012, 2021, "Waverly",4,4.5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(27,2016, 2021,"Addison",4,3.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(28,2011, 2021, "Beaver", 3.5, 2.1, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(29,2008, 2021,"Kensington",4,5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(30,2002, 2021,"Mouse",4.5,4.5,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(31,2012, 2020, "Chestnut",4,4.5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(32,2016, 2020,"Walnut",4,3.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(33,2011, 2020, "Market", 3.8, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(34,2008, 2020,"Locust",4,4.8,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(35,2002, 2020,"South",4.5,4.7,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(36,2012, 2021, "18th",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(37,2016, 2021,"2nd",4,3.2,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(38,2011, 2021, "Lombard", 3.5, 2.5, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(39,2008, 2021,"Pine",4,5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(40,2002, 2021,"Tasker",4.5,4.3,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(41,2012, 2020, "Earp",4,4.5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(42,2016, 2020,"Titan",4,3.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(43,2011, 2020, "Manning", 3.4, 2.7, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(44,2008, 2020,"Fieldcrest",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(45,2002, 2020,"York",4.5,4.4,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(46,2012, 2021, "Race",4,4.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(47,2016, 2021,"Museum",4,3.4,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(48,2011, 2021, "Altin", 3.7, 2, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(49,2008, 2021,"Fred",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(50,2002, 2021,"Morris",4.5,4.4,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(51,2012, 2020, "Jameson",4,4,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(52,2016, 2020,"MLK",4,4,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(53,2011, 2020, "Parker", 3.6, 2.3, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(54,2008, 2020,"Thomas",4,4.5,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(55,2002, 2020,"Running",4.5,4.5,"no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(56,2012, 2021, "Waverly",4,4.7,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(57,2016, 2021,"Addison",4,3.6,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(58,2011, 2021, "Beaver", 3.5, 2.5, "no");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(59,2008, 2021,"Kensington",4,4.9,"yes");
+INSERT INTO BIT_DB.CityBikeLanes VALUES(60,2002, 2021,"Mouse",4.5,4.3,"no");
+
+-- 1. Preview the first 10 rows of the new table.
+
+SELECT
+    *
+    FROM BIT_DB.CityBikeLanes
+    LIMIT 10
+    ;
+
+-- 2. Display the bike lanes on Walnut street.
+
+SELECT
+    *
+    FROM BIT_DB.CityBikeLanes
+    WHERE(street='Walnut')
+    ;
+
+-- 3. Make a list of all bike lanes that have an average safety rating of 4.0 or higher. Additionally, display the average safety rating for each of those bike lanes, and give them a label that says "Safe Lane".
+
+WITH safety_avg_CTE AS(
+    SELECT
+        CBL.street,
+        AVG(CBL.safetyrating) AS "rating"
+        FROM CityBikeLanes AS "CBL"
+        GROUP BY CBL.street)
+    SELECT
+        street,
+        rating,
+        'Safe Lane' AS "label"
+        FROM safety_avg_CTE
+        WHERE(rating>=4)
+        ORDER BY rating DESC
+        ;
+
+-- 4. Display the individual and average safety ratings for each bike lane, starting with the highest average.
+
+SELECT
+    street,
+    safetyrating,
+    AVG(safetyrating) OVER (PARTITION BY street) AS "avg_safety_rating"
+    FROM BIT_DB.CityBikeLanes
+    ORDER BY avg_safety_rating DESC
+    ;
+
+-- 5. In addition to the previous query, label bike lanes with an average safety rating of 4 or more as "Leave As-Is", less than 2.5 as "Remove", and all others as "Improvements Needed".
+
+SELECT
+    street,
+    safetyrating,
+    AVG(safetyrating) OVER (PARTITION BY street) AS "avg_safety_rating",
+    CASE
+        WHEN(AVG(safetyrating) OVER (PARTITION BY street)>=4) THEN 'Leave As-Is'
+        WHEN(AVG(safetyrating) OVER (PARTITION BY street)<2.5) THEN 'Remove'
+        ELSE 'Improvements Needed'
+        END AS "recommendation"
+    FROM BIT_DB.CityBikeLanes
+    ORDER BY avg_safety_rating DESC
+    ;
