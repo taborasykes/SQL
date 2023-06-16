@@ -9,7 +9,7 @@ SELECT
     COUNT(orderID) AS "Jan_Orders"
     FROM BIT_DB.JanSales
     WHERE((LENGTH(orderID)=6)
-    AND(orderID<>'Order ID'))
+        AND(orderID<>'Order ID'))
     ;
 
 -- 2. How many of those orders were for an iPhone?
@@ -18,8 +18,8 @@ SELECT
     COUNT(orderID) AS "Jan_iPhone_Orders"
     FROM BIT_DB.JanSales
     WHERE((Product='iPhone')
-    AND(LENGTH(orderID)=6)
-    AND(orderID<>'Order ID'))
+        AND(LENGTH(orderID)=6)
+        AND(orderID<>'Order ID'))
     ;
 
 -- 3. Select the customer account numbers for all the orders that were placed in February.
@@ -27,10 +27,10 @@ SELECT
 SELECT
     DISTINCT cust.acctnum AS "Account_Number"
     FROM BIT_DB.customers AS "cust"
-    INNER JOIN BIT_DB.FebSales AS "feb"
-    ON cust.order_id=feb.orderID
+    JOIN BIT_DB.FebSales AS "feb"
+        ON cust.order_id=feb.orderID
     WHERE((LENGTH(feb.orderID)=6)
-    AND(feb.orderID<>'Order ID'))
+        AND(feb.orderID<>'Order ID'))
     ;
 
 -- 4. Which product was the cheapest one sold in January, and what was the price?
@@ -71,10 +71,10 @@ SELECT
     AVG(feb.Quantity*feb.price) AS "Avg_TX_>2_Items"
     FROM BIT_DB.customers AS "cust"
     LEFT JOIN BIT_DB.FebSales AS "feb"
-    ON cust.order_id=feb.orderID
+        ON cust.order_id=feb.orderID
     WHERE(feb.Quantity>2)
-    AND(LENGTH(feb.orderID)=6)
-    AND(feb.orderID<>'Order ID')
+        AND(LENGTH(feb.orderID)=6)
+        AND(feb.orderID<>'Order ID')
     ;
 
 -- 8. List all the products sold in Los Angeles in February, and include how many of each were sold.
@@ -84,7 +84,7 @@ SELECT
     SUM(Quantity) AS "Quantity_Sold"
     FROM BIT_DB.FebSales
     WHERE(location LIKE '%Los Angeles%')
-    AND(orderdate LIKE '02%')
+        AND(orderdate LIKE '02%')
     GROUP BY Product
     ORDER BY Quantity_Sold DESC
     ;
@@ -96,8 +96,8 @@ SELECT
     COUNT(orderID) AS "Orders"
     FROM BIT_DB.JanSales
     WHERE(location LIKE '% NY %')
-    AND(LENGTH(orderID)=6)
-    AND(orderID<>'Order ID')
+        AND(LENGTH(orderID)=6)
+        AND(orderID<>'Order ID')
     GROUP BY NY_Location
     HAVING(Orders>=3)
     ORDER BY Orders DESC
@@ -120,9 +120,9 @@ SELECT
     (SUM(feb.Quantity*feb.price)/COUNT(DISTINCT cust.acctnum)) AS "Feb_AVG_Spending_Per_Cust"
     FROM BIT_DB.FebSales AS "feb"
     LEFT JOIN BIT_DB.customers AS "cust"
-    ON feb.orderID=cust.order_id
+        ON feb.orderID=cust.order_id
     WHERE(LENGTH(feb.orderID)=6)
-    AND(feb.orderID<>'Order ID')
+        AND(feb.orderID<>'Order ID')
     ;
 
 -- 12. What was the average quantity of products purchased by each account in February?
@@ -133,9 +133,9 @@ SELECT
     SUM(feb.Quantity)/COUNT(DISTINCT cust.acctnum) AS "Feb_AVG_Quantity_Per_Cust"
     FROM BIT_DB.FebSales AS "feb"
     LEFT JOIN BIT_DB.customers AS "cust"
-    ON feb.orderID=cust.order_id
+        ON feb.orderID=cust.order_id
     WHERE(LENGTH(feb.orderID)=6)
-    AND(feb.orderID<>'Order ID')
+        AND(feb.orderID<>'Order ID')
     ;
 
 -- 13. Which product brought in the most revenue in January and how much revenue did it bring in total?
@@ -145,7 +145,7 @@ SELECT
     SUM(Quantity*price) AS "Revenue"
     FROM BIT_DB.JanSales
     WHERE(LENGTH(orderID)=6)
-    AND(orderID<>'Order ID')
+        AND(orderID<>'Order ID')
     GROUP BY Product
     ORDER BY Revenue DESC
     LIMIT 1
