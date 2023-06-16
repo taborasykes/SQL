@@ -1,0 +1,165 @@
+/*
+Digital Media Store Data Analytics
+Data collected by Charlotte Chaze from Break Into Tech
+*/
+
+-- 1. Display the customer IDs, full names, and countries of customers not in the US.
+
+SELECT
+    CustomerId,
+    FirstName,
+    LastName,
+    Country
+    FROM chinook.customers
+    WHERE(Country<>'USA')
+    ORDER BY CustomerId ASC
+    ;
+
+-- 2. Display the full names, invoice IDs, invoice dates, and billing countries of customers who are from Brazil.
+
+SELECT
+    cust.FirstName,
+    cust.LastName,
+    inv.InvoiceId,
+    inv.InvoiceDate,
+    inv.BillingCountry
+    FROM chinook.customers AS "cust"
+    LEFT JOIN chinook.invoices AS "inv"
+    ON cust.CustomerId=inv.CustomerId
+    WHERE(inv.BillingCountry='Brazil')
+    ORDER BY inv.InvoiceId ASC
+    ;
+
+-- 3. Display the employee information for each sales agent.
+
+SELECT
+    *
+    FROM chinook.employees
+    WHERE(Title='Sales Support Agent')
+    ORDER BY EmployeeId ASC
+    ;
+
+-- 4. Display a unique/distinct list of billing countries from the invoice table.
+
+SELECT
+    DISTINCT BillingCountry
+    FROM chinook.invoices
+    ORDER BY BillingCountry ASC
+    ;
+
+-- 5. Display the invoice IDs associated with each sales agent.
+
+SELECT
+    inv.InvoiceId,
+    emp.FirstName,
+    emp.LastName
+    FROM chinook.employees AS "emp"
+    JOIN chinook.customers AS "cust"
+        ON emp.EmployeeId=cust.SupportRepId
+    RIGHT JOIN chinook.invoices AS "inv"
+        ON cust.CustomerId=inv.CustomerId
+    ;
+
+-- 6. Display the customer full name, country, sales agent full name, and revenue from all invoices for each customer.
+
+SELECT
+    cust.FirstName AS "CustFirstName",
+    cust.LastName AS "CustLastName",
+    cust.Country,
+    emp.FirstName AS "AgentFirstName",
+    emp.LastName AS "AgentLastName",
+    SUM(inv.Total) AS "Revenue"
+    FROM chinook.employees AS "emp"
+    JOIN chinook.customers AS "cust"
+        ON emp.EmployeeId=cust.SupportRepId
+    RIGHT JOIN chinook.invoices AS "inv"
+        ON cust.CustomerId=inv.CustomerId
+    GROUP BY cust.CustomerId
+    ;
+
+-- 7. Display the total number of invoices and revenue for 2009.
+
+SELECT
+    COUNT(InvoiceId) AS "Invoices_2009",
+    SUM(Total) AS "Revenue_2009"
+    FROM chinook.invoices
+    WHERE(InvoiceDate LIKE '2009%')
+    ;
+
+-- 8. Display the purchased track name for each invoice line ID.
+
+SELECT
+    i.InvoiceLineId,
+    t.Name AS "Track"
+    FROM chinook.invoice_items AS "i"
+    LEFT JOIN chinook.tracks AS "t"
+    ON i.TrackId=t.TrackId
+    ORDER BY i.InvoiceLineId ASC
+    ;
+
+-- 9. Display the purchased track name and artist name for each invoice line ID.
+
+SELECT
+    i.InvoiceLineId,
+    t.Name AS "Track",
+    ar.Name AS "Artist"
+    FROM chinook.invoice_items AS "i"
+    LEFT JOIN chinook.tracks AS "t"
+        ON i.TrackId=t.TrackId
+    LEFT JOIN chinook.albums AS "al"
+        ON t.AlbumId=al.AlbumId
+    LEFT JOIN chinook.artists AS "ar"
+        ON al.ArtistId=ar.ArtistId
+    ORDER BY i.InvoiceLineId ASC
+    ;
+
+-- 10. Display every track name with its album name, genre, and media type.
+
+SELECT
+    t.Name AS "Track",
+    al.Title AS "Album",
+    g.Name AS "Genre",
+    m.Name AS "MediaType"
+    FROM chinook.tracks AS "t"
+    LEFT JOIN chinook.albums AS "al"
+        ON t.AlbumId=al.AlbumId
+    LEFT JOIN chinook.genres AS "g"
+        ON t.GenreId=g.GenreId
+    LEFT JOIN chinook.media_types AS "m"
+        ON t.MediaTypeId=m.MediaTypeId
+    ORDER BY t.Name ASC
+    ;
+
+-- 11. Display the total sales made by each sales agent.
+
+SELECT
+    emp.FirstName,
+    emp.LastName,
+    SUM(inv.Total) AS "TotalSales"
+    FROM chinook.employees AS "emp"
+    JOIN chinook.customers AS "cust"
+        ON emp.EmployeeId=cust.SupportRepId
+    RIGHT JOIN chinook.invoices AS "inv"
+        ON cust.CustomerId=inv.CustomerId
+    WHERE(Title='Sales Support Agent')
+    GROUP BY emp.EmployeeId
+    ORDER BY TotalSales DESC
+    ;
+
+-- 12. Display the sales agent with the highest sales in the fourth quarter of 2009.
+
+SELECT
+    emp.FirstName,
+    emp.LastName,
+    SUM(inv.Total) AS "TotalSales_Q4_2009"
+    FROM chinook.employees AS "emp"
+    JOIN chinook.customers AS "cust"
+        ON emp.EmployeeId=cust.SupportRepId
+    RIGHT JOIN chinook.invoices AS "inv"
+        ON cust.CustomerId=inv.CustomerId
+    WHERE((Title='Sales Support Agent')
+        AND(inv.InvoiceDate BETWEEN '2009-10-01 00:00:00' AND '2009-12-31 23:59:59'))
+    GROUP BY emp.EmployeeId
+    ORDER BY TotalSales_Q4_2009 DESC
+    LIMIT 1
+    ;
