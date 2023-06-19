@@ -203,7 +203,9 @@ SELECT
     payment_type,
     COUNT(ID) AS "low_sales_transactions"
     FROM sales
-    WHERE(country<>'United states' AND country<>'Canada' AND country<>'United Kingdom')
+    WHERE(country<>'United states'
+        AND country<>'Canada'
+        AND country<>'United Kingdom')
     GROUP BY payment_type
     ORDER BY low_sales_transactions DESC
     ;
@@ -214,7 +216,8 @@ SELECT
     payment_type,
     COUNT(ID) AS "beds_and_couches"
     FROM sales
-    WHERE(product='Bed' OR product='Couch')
+    WHERE(product='Bed'
+        OR product='Couch')
     GROUP BY payment_type
     ORDER BY beds_and_couches DESC
     ;
