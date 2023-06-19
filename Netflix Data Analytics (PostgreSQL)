@@ -26,7 +26,7 @@ SELECT
     titles.type
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
     LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
-    ON people.show_id=titles.show_id
+        ON people.show_id=titles.show_id
     ;
 
 -- 3. How many movie titles are there in the database?
@@ -58,7 +58,7 @@ SELECT
     people.director
     FROM "CharlotteChaze/BreakIntoTech"."netflix_people" AS "people"
     LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" AS "titles"
-    ON people.show_id=titles.show_id
+        ON people.show_id=titles.show_id
     WHERE(titles.title='Bright Star')
     ;
 
@@ -68,8 +68,8 @@ SELECT
     title,
     release_year
     FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
-    WHERE(type='Movie')
-    AND release_year<=(SELECT MIN(release_year)
-        FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
-        WHERE(type='Movie'))
-        ;
+    WHERE(type='Movie'
+        AND(release_year<=(SELECT MIN(release_year)
+            FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+            WHERE(type='Movie'))))
+    ;
