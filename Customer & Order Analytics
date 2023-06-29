@@ -89,7 +89,7 @@ SELECT
     ORDER BY Quantity_Sold DESC
     ;
 
--- 9. START Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
+-- 9. Which locations in New York received at least 3 orders in January, and how many orders did they each receive?
 
 SELECT
     DISTINCT location AS "NY_Location",
