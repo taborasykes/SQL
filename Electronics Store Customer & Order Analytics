@@ -138,7 +138,7 @@ SELECT
         AND(feb.orderID<>'Order ID')
     ;
 
--- 13. Which product brought in the most revenue in January and how much revenue did it bring in total?
+-- 13. Which product brought in the most revenue in January, and how much revenue did it bring in total?
 
 SELECT
     Product,
